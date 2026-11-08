@@ -81,6 +81,20 @@ See `../../PLAN.md` for the full risk table.
 - `tests/integration/*.test.ts`: the same attacks over HTTP with real JWTs, plus storage.
 - `tests/e2e/isolation.spec.ts`: the isolation-check page, URL tampering and admin-route 404s.
 
+## Internal review (2026-11-08)
+
+An independent read-only review found no cross-tenant path. It did find these issues, fixed in
+ and tested in :
+- Accepting an invitation could tag a pre-existing account from another app, which a demo reset
+  would then delete.
+- The demo credentials could be changed through the Auth API (now blocked by a trigger scoped to
+  the four demo ids).
+- Agency staff profiles were readable by any user of the shared project.
+- Internal documents' names stayed in the client activity feed.
+
+Accepted: the invite page's "account already exists" message reveals that an email is registered
+in the shared project.
+
 ## Reporting
 
 This is a portfolio demo. If you find a problem, please open a GitHub issue, without exploit

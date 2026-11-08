@@ -93,7 +93,7 @@ The app needs **no server secrets**.
 
 | Command | What it covers | Last local run (2026-11-08) |
 |---|---|---|
-| `npm run test:db` | pgTAP: RLS for every role and operation, grants, composite FKs, invitations, reset scope | 66 passed |
+| `npm run test:db` | pgTAP: RLS for every role and operation, grants, composite FKs, invitations, reset scope | 79 passed |
 | `npm run test:unit` | Zod schemas, file signature checks, redirects, dates and time zones, error mapping | 43 passed |
 | `npm run test:integration` | supabase-js over HTTP with real JWTs: id-swap attacks, storage permissions, invitation and workflow paths | 22 passed |
 | `npm run test:e2e` | Playwright on a production build: auth, isolation page, URL tampering, workflows, uploads and downloads, axe scans, mobile nav | 24 passed |
