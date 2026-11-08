@@ -10,9 +10,9 @@ select no_plan();
 
 -- Two outsiders: an invitee and an account belonging to some other app in
 -- the shared Supabase project (untagged). Neither has a portal profile.
-insert into auth.users (id, email, aud, role, raw_app_meta_data) values
-  ('c0000000-0000-4000-8000-0000000000c1', 'new.person@example.com', 'authenticated', 'authenticated', '{}'),
-  ('d0000000-0000-4000-8000-0000000000d1', 'other-app-user@example.com', 'authenticated', 'authenticated', '{"provider":"email"}');
+insert into auth.users (id, email, aud, role, raw_app_meta_data, email_confirmed_at, created_at) values
+  ('c0000000-0000-4000-8000-0000000000c1', 'new.person@example.com', 'authenticated', 'authenticated', '{}', now(), now()),
+  ('d0000000-0000-4000-8000-0000000000d1', 'other-app-user@example.com', 'authenticated', 'authenticated', '{"provider":"email"}', now(), now() - interval '1 year');
 
 -- ---------------------------------------------------------------- Outsider
 select set_config('request.jwt.claims', json_build_object('sub', 'd0000000-0000-4000-8000-0000000000d1', 'role', 'authenticated')::text, true);
