@@ -63,7 +63,10 @@ begin
 
   -- 1. Wipe app data (cascades through every tenant table).
   delete from portal.profiles where role = 'client' or id <> all (v_seed_users);
-  delete from portal.organizations;
+  -- The explicit WHERE is required: Supabase preloads pg-safeupdate for API
+  -- (PostgREST) sessions, which rejects DELETE/UPDATE without a WHERE clause,
+  -- even inside SECURITY DEFINER functions. See docs/case-studies/.
+  delete from portal.organizations where id is not null;
 
   -- 2. Remove accounts that visitors created through invitations, and restore
   --    demo passwords (a visitor could change one with the public API key).
@@ -129,13 +132,13 @@ begin
   -- 6. Documents (rows only; scripts/seed-storage.mjs uploads the matching objects).
   insert into portal.documents (id, org_id, project_id, storage_path, file_name, mime_type, size_bytes, visibility, uploaded_by, created_at) values
     ((ids->>'docA1')::uuid, v_org_a, v_pa1, (ids->>'orgA') || '/' || (ids->>'docA1'),
-     'Northwind - project brief.pdf', 'application/pdf', 1180, 'client', v_admin, now() - interval '29 days'),
+     'Northwind - project brief.pdf', 'application/pdf', 1060, 'client', v_admin, now() - interval '29 days'),
     ((ids->>'docA2')::uuid, v_org_a, v_pa1, (ids->>'orgA') || '/' || (ids->>'docA2'),
-     'Sitemap v2.txt', 'text/plain', 412, 'client', v_admin, now() - interval '12 days'),
+     'Sitemap v2.txt', 'text/plain', 370, 'client', v_admin, now() - interval '12 days'),
     ((ids->>'docAInternal')::uuid, v_org_a, v_pa1, (ids->>'orgA') || '/' || (ids->>'docAInternal'),
-     'Internal estimate.csv', 'text/csv', 220, 'internal', v_admin, now() - interval '28 days'),
+     'Internal estimate.csv', 'text/csv', 122, 'internal', v_admin, now() - interval '28 days'),
     ((ids->>'docB1')::uuid, v_org_b, v_pb1, (ids->>'orgB') || '/' || (ids->>'docB1'),
-     'Harbour Physio - booking rules.pdf', 'application/pdf', 1176, 'client', v_admin, now() - interval '18 days');
+     'Harbour Physio - booking rules.pdf', 'application/pdf', 1039, 'client', v_admin, now() - interval '18 days');
 
   -- 7. Messages.
   insert into portal.messages (org_id, sender_id, body, created_at) values
