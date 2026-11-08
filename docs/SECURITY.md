@@ -76,7 +76,7 @@ See `../../PLAN.md` for the full risk table.
 
 ## Tests that prove it
 
-- `supabase/tests/database/*.test.sql`: 66 pgTAP checks (reads, updates, inserts, deletes by id
+- `supabase/tests/database/*.test.sql`: 79 pgTAP checks (reads, updates, inserts, deletes by id
   swap, grants, composite FKs, invitations, reset scope).
 - `tests/integration/*.test.ts`: the same attacks over HTTP with real JWTs, plus storage.
 - `tests/e2e/isolation.spec.ts`: the isolation-check page, URL tampering and admin-route 404s.
@@ -84,7 +84,8 @@ See `../../PLAN.md` for the full risk table.
 ## Internal review (2026-11-08)
 
 An independent read-only review found no cross-tenant path. It did find these issues, fixed in
- and tested in :
+`supabase/migrations/20261108000003_portal_security_hardening.sql` and tested in
+`supabase/tests/database/03_security_hardening.test.sql`:
 - Accepting an invitation could tag a pre-existing account from another app, which a demo reset
   would then delete.
 - The demo credentials could be changed through the Auth API (now blocked by a trigger scoped to
