@@ -3,6 +3,7 @@
 // demo users, so requests carry genuine JWTs and RLS is evaluated for real.
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "../../src/lib/database.types";
+import { syncDemoStorage } from "../../src/lib/demo-storage.ts";
 
 try {
   process.loadEnvFile(".env.local");
@@ -52,5 +53,6 @@ export async function resetDemo() {
   const admin = await signedIn(USERS.admin);
   const { error } = await admin.rpc("reset_demo");
   if (error) throw new Error(`reset_demo failed: ${error.message}`);
+  await syncDemoStorage(admin);
   await admin.auth.signOut();
 }
