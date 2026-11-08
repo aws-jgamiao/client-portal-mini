@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Client Portal Mini design tokens: warm neutrals, one deep-teal accent.
+   All text/background pairs below meet WCAG 2.2 AA (4.5:1) or better. */
+@theme {
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #f7f5f2;       /* page background */
+  --color-surface: #ffffff;      /* cards */
+  --color-line: #e4dfd8;         /* borders */
+  --color-line-strong: #cfc8be;
+  --color-ink: #1f1c19;          /* primary text, 16.1:1 on canvas */
+  --color-ink-muted: #5c554d;    /* secondary text, 7.0:1 on canvas */
+  --color-ink-subtle: #6f675e;   /* tertiary text, 5.3:1 on surface */
+
+  --color-brand: #0e5c57;        /* teal, 7.6:1 with white */
+  --color-brand-hover: #0a4642;
+  --color-brand-soft: #e3f0ee;
+  --color-brand-ink: #0b4b47;
+
+  --color-ok: #1d6b3a;
+  --color-ok-soft: #e4f2e8;
+  --color-warn: #8a5300;
+  --color-warn-soft: #fbefd9;
+  --color-danger: #b0292b;
+  --color-danger-soft: #fbe7e6;
+  --color-info: #2b5797;
+  --color-info-soft: #e5edf8;
+
+  --radius-card: 0.875rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-canvas text-ink antialiased;
+    font-feature-settings: "ss01";
+  }
+  /* One consistent, highly visible focus indicator (WCAG 2.4.7 / 2.4.11). */
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .input {
+    @apply block w-full rounded-lg border border-line-strong bg-surface px-3 py-2 text-[0.9375rem] text-ink
+      placeholder:text-ink-subtle disabled:cursor-not-allowed disabled:bg-canvas;
+  }
+  .input[aria-invalid="true"] {
+    @apply border-danger;
+  }
+  .card {
+    @apply rounded-[var(--radius-card)] border border-line bg-surface;
+  }
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg
+      focus:bg-surface focus:px-4 focus:py-2 focus:shadow;
+  }
 }
