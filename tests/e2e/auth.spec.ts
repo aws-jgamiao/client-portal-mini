@@ -35,7 +35,9 @@ test("an open redirect in ?next= is ignored", async ({ page }) => {
   await page.getByLabel("Email").fill(USERS.clientA);
   await page.getByLabel("Password", { exact: true }).fill("DemoPortal!2026");
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
-  await expect(page).toHaveURL(/localhost:\d+\/dashboard$/);
+  // Must stay on this site (works locally and against the deployed URL).
+  await expect(page).toHaveURL(/\/dashboard$/);
+  expect(new URL(page.url()).origin).toBe(new URL(test.info().project.use.baseURL!).origin);
 });
 
 test("password reset request gives the same response for unknown emails", async ({ page }) => {

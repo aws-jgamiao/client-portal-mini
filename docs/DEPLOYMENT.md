@@ -1,6 +1,6 @@
 # Deployment (Vercel + the shared Supabase project)
 
-> Status: **not yet deployed.** These are the steps to follow. Each one that changes the remote
+> Status: **deployed 2026-11-08** to the shared Supabase project and Vercel (https://client-portal-mini.vercel.app). Steps kept for reference. Each one that changes the remote
 > database is shown for review first and is only run with the owner's approval.
 
 ## 1. Supabase (shared project): one-time setup

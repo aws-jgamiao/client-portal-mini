@@ -9,7 +9,7 @@ client's data even by editing a request. The app includes a page that proves it 
 
 ![Client dashboard](docs/screenshots/02-client-dashboard.png)
 
-> **Live demo:** not yet deployed (see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)).
+> **Live demo:** https://client-portal-mini.vercel.app (one-click demo sign-in on the landing page).
 > **Status:** portfolio project. All data is synthetic.
 
 ## Try it
@@ -100,8 +100,7 @@ The app needs **no server secrets**.
 | `npm run lint` / `npm run typecheck` | ESLint, `tsc --noEmit` | clean |
 
 `test:db`, `test:integration` and `test:e2e` need the local stack running. CI
-(`.github/workflows/ci.yml`) runs everything on each push and PR. *CI hasn't run yet because the
-repository hasn't been pushed.*
+(`.github/workflows/ci.yml`) runs everything on each push and PR, and passes on GitHub Actions.
 
 ## Security
 
